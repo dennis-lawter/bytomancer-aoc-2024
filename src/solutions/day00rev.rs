@@ -1,7 +1,7 @@
 use super::final_answer;
 use super::input_raw;
 
-const DAY: u8 = 0;
+const DAY: u8 = 00;
 
 async fn input(example: bool) -> Vec<String> {
     let raw = input_raw(DAY, example).await;

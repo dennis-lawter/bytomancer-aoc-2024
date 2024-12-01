@@ -1,5 +1,5 @@
 function(day, solution, input)
-    local filedir = "src/solutions_lua/"
+    local filedir = "lua_src/solutions/"
     local fileend = ".fnl"
     local padded_day = day
     if day < 10 then

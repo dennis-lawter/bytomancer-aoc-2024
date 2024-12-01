@@ -11,7 +11,11 @@ pub fn run_lua_script<T: std::fmt::Display + FromLuaMulti>(
         .load(include_str!("../../lua_src/runner.lua"))
         .eval::<Function>()
         .expect("Failed to load solver");
-    solver
-        .call::<T>((day, solution, input))
-        .expect("Solver failed")
+    match solver.call::<T>((day, solution, input)) {
+        Ok(answer) => answer,
+        Err(e) => {
+            let msg = e.to_string().replace("\\n", "\n").replace("\\t", "\t");
+            panic!("{}", msg);
+        }
+    }
 }

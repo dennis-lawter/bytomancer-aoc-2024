@@ -69,6 +69,9 @@ async fn main() {
         "d01s1" => solutions::day01::d01s1(submit, example).await,
         "d01s2" => solutions::day01::d01s2(submit, example).await,
 
+        "d02s1" => solutions::day02::d02s1(submit, example).await,
+        "d02s2" => solutions::day02::d02s2(submit, example).await,
+
         // REVISED APPROACHES
         "d00s1rev" => solutions::day00rev::d00s1(submit, example).await,
         "d00s2rev" => solutions::day00rev::d00s2(submit, example).await,

@@ -5,21 +5,15 @@ const DAY: u8 = 02;
 
 async fn input(example: bool) -> Vec<Vec<u64>> {
     let raw = input_raw(DAY, example).await;
-    let mut grid = vec![];
-    let lines: Vec<String> = raw
-        .lines()
-        .map(|item| item.to_owned())
+    raw.lines()
+        .map(|i| i.to_owned())
         .filter(|item| item.len() > 0)
-        .collect();
-    for line in lines {
-        let grid_line: Vec<u64> = line
-            .split_whitespace()
-            .map(|item| item.parse::<u64>().expect("Failed to parse during input"))
-            .collect();
-        grid.push(grid_line);
-    }
-
-    grid
+        .map(|i| {
+            i.split_whitespace()
+                .map(|j| j.parse::<u64>().expect("Failed to parse during input"))
+                .collect()
+        })
+        .collect()
 }
 
 fn test_safe(line: Vec<u64>) -> bool {

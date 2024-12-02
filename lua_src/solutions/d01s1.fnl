@@ -14,15 +14,15 @@
         (- l r)))
 
   (var answer 0)
-  (let [l []]
-    (let [r []]
-      (each [_ line (pairs input)]
-        (let [t (icollect [token (string.gmatch line "[^%s]+")]
-                  (tonumber token))]
-          (setup_lists l r t)))
-      (table.sort l)
-      (table.sort r)
-      (each [k lv (pairs l)]
-        (let [rv (. r k)]
-          (set answer (+ answer (get_dist lv rv)))))))
+  (let [l []
+        r []]
+    (each [_ line (pairs input)]
+      (let [t (icollect [token (string.gmatch line "[^%s]+")]
+                (tonumber token))]
+        (setup_lists l r t)))
+    (table.sort l)
+    (table.sort r)
+    (each [k lv (pairs l)]
+      (let [rv (. r k)]
+        (set answer (+ answer (get_dist lv rv))))))
   answer)

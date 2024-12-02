@@ -20,6 +20,7 @@
         rustc
         cargo
         lua
+	fnlfmt
         openssl.dev
         pkg-config
       ];

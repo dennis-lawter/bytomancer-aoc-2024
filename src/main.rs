@@ -89,6 +89,9 @@ async fn main() {
         "d02s1lua" => solutions::day02lua::d02s1(submit, example).await,
         "d02s2lua" => solutions::day02lua::d02s2(submit, example).await,
 
+        "d03s1lua" => solutions::day03lua::d03s1(submit, example).await,
+        "d03s2lua" => solutions::day03lua::d03s2(submit, example).await,
+
         // VISUALIZATIONS
 
         // ERR

@@ -13,13 +13,13 @@ pub async fn d03s1(submit: bool, example: bool) {
     let input = input(example).await;
     let mut ans = 0;
     let re = Regex::new(r#"mul\(\d+,\d+\)"#).unwrap();
+    let re2 = Regex::new(r#"(\d+),(\d+)"#).unwrap();
     for cap_group in re.captures_iter(&input) {
         for cap in cap_group.iter() {
             match cap {
                 Some(c) => {
                     let c_str = c.as_str();
                     if c_str.starts_with("mul") {
-                        let re2 = Regex::new(r#"(\d+),(\d+)"#).unwrap();
                         let inner_caps = re2.captures(c_str).unwrap();
                         let left = inner_caps.get(1).unwrap().as_str().parse::<u64>().unwrap();
                         let right = inner_caps.get(2).unwrap().as_str().parse::<u64>().unwrap();
@@ -38,6 +38,7 @@ pub async fn d03s2(submit: bool, example: bool) {
     let mut ans = 0;
     let mut en = true;
     let re = Regex::new(r#"mul\(\d+,\d+\)|do\(\)|don't\(\)"#).unwrap();
+    let re2 = Regex::new(r#"(\d+),(\d+)"#).unwrap();
     for cap_group in re.captures_iter(&input) {
         for cap in cap_group.iter() {
             match cap {
@@ -45,7 +46,6 @@ pub async fn d03s2(submit: bool, example: bool) {
                     let c_str = c.as_str();
                     if c_str.starts_with("mul") {
                         if en {
-                            let re2 = Regex::new(r#"(\d+),(\d+)"#).unwrap();
                             let inner_caps = re2.captures(c_str).unwrap();
                             let left = inner_caps.get(1).unwrap().as_str().parse::<u64>().unwrap();
                             let right = inner_caps.get(2).unwrap().as_str().parse::<u64>().unwrap();

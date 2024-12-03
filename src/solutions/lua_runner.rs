@@ -1,11 +1,14 @@
 use mlua::FromLuaMulti;
 use mlua::Function;
+use mlua::IntoLuaMulti;
 
-pub fn run_lua_script<T: std::fmt::Display + FromLuaMulti>(
+pub fn run_lua_script<T: std::fmt::Display + FromLuaMulti, I: IntoLuaMulti>(
     day: u8,
     solution: u8,
-    input: Vec<String>,
-) -> T {
+    input: I,
+) -> T
+where
+{
     let lua = unsafe { mlua::Lua::unsafe_new() };
     let solver = lua
         .load(include_str!("../../lua_src/runner.lua"))

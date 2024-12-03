@@ -15,7 +15,7 @@ async fn main() {
         .about("Once properly configured, this repository can solve Advent of Code problems automatically")
         .arg(
             Arg::with_name("FUNCTION")
-                .help("Specify the function to run (in the format d00s0")
+                .help("Specify the function to run (in the format d00s0)")
                 .required(true),
         )
         .arg(
@@ -71,6 +71,9 @@ async fn main() {
 
         "d02s1" => solutions::day02::d02s1(submit, example).await,
         "d02s2" => solutions::day02::d02s2(submit, example).await,
+
+        "d03s1" => solutions::day03::d03s1(submit, example).await,
+        "d03s2" => solutions::day03::d03s2(submit, example).await,
 
         // REVISED APPROACHES
         "d00s1rev" => solutions::day00rev::d00s1(submit, example).await,

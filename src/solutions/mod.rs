@@ -17,6 +17,8 @@ pub mod day01lua;
 pub mod day02;
 pub mod day02lua;
 
+pub mod day03;
+
 pub async fn input_raw(day: u8, example: bool) -> String {
     if example {
         get_example_as_string(day).await

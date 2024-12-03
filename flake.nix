@@ -21,6 +21,7 @@
         cargo
         lua
 	fnlfmt
+	fennel-ls
         openssl.dev
         pkg-config
       ];

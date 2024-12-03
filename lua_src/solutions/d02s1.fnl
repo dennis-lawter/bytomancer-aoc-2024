@@ -11,7 +11,13 @@
     (let [allowed [1 2 3]
     curr (. line i)
     prev (. line (- i 1))]
-      (if (= nil curr) true (set_contains allowed (if increasing (- curr prev) (- prev curr))) (is_allowed line (+ i 1) increasing) false)
+      (if
+        (= nil curr) 
+        true
+        (set_contains allowed (if increasing (- curr prev) (- prev curr)))
+        (is_allowed line (+ i 1) increasing)
+        false
+      )
     )
   )
 

@@ -1,10 +1,8 @@
 (let [input _G.input]
-  (fn table_print [t]
-    (each [k v (pairs t)]
-      (print (.. (.. k ":") v))))
+  (local common (require :lua_src.common))
 
   (fn setup_lists [l r pair]
-    (table_print pair)
+    (common.table_print pair)
     (tset l (+ (length l) 1) (. pair 1))
     (tset r (+ (length r) 1) (. pair 2)))
 

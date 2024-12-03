@@ -1,8 +1,6 @@
 (let [input _G.input]
-  (fn table_print [t]
-    (each [k v (pairs t)]
-      (print (.. (.. k ":") v))))
-
+  (local common (require :lua_src.common))
+  
   (fn set_contains [t key]
     (not= nil (. t key)))
 
@@ -21,15 +19,11 @@
     (var increasing (> (. line 2) (. line 1)))
     (is_allowed line 2 increasing))
 
-  (fn table_shallow_copy [t]
-    (var copy [])
-    (each [k v (pairs t)]
-      (tset copy k v))
-    copy)
-
   (fn copied_table_with_missing_key [t key]
-    (var t_copy (table_shallow_copy t))
+    (var t_copy (common.table_shallow_copy t))
     (table.remove t_copy key)
+    (common.table_print t_copy)
+    (print "")
     t_copy)
 
   (fn test_safe_with_perms [line i]

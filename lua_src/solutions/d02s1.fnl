@@ -1,7 +1,5 @@
 (let [input _G.input]
-  (fn table_print [t]
-    (each [k v (pairs t)]
-      (print (.. (.. k ":") v))))
+  (local common (require :lua_src.common))
   
   (fn set_contains [t key]
     (not= nil (. t key))

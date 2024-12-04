@@ -158,37 +158,12 @@
 
   (fn find_xmas [x y input]
     (var ans 0)
-    (if
-      (find_xmas_up_left x y input)
-      (set answer (+ answer 1))
-    )
-    (if
-      (find_xmas_up_right x y input)
-      (set answer (+ answer 1))
-    )
-    (if
-      (find_xmas_up x y input)
-      (set answer (+ answer 1))
-    )
-    (if
-      (find_xmas_left x y input)
-      (set answer (+ answer 1))
-    )
-    (if
-      (find_xmas_right x y input)
-      (set answer (+ answer 1))
-    )
-    (if
-      (find_xmas_down_left x y input)
-      (set answer (+ answer 1))
-    )
-    (if
-      (find_xmas_down_right x y input)
-      (set answer (+ answer 1))
-    )
-    (if
-      (find_xmas_down x y input)
-      (set answer (+ answer 1))
+    (var funcs [find_xmas_up_left find_xmas_up_right find_xmas_up find_xmas_left find_xmas_right find_xmas_down_left find_xmas_down_right find_xmas_down])
+    (each [_ func (pairs funcs)]
+      (if
+        (func x y input)
+        (set answer (+ answer 1))
+      )
     )
     ans
   )

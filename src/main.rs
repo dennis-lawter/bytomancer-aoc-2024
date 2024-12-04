@@ -1,3 +1,4 @@
+mod func_map;
 mod input;
 mod prelude;
 mod solutions;
@@ -61,47 +62,9 @@ async fn main() {
 
     use std::time::Instant;
     let now = Instant::now();
-    match &func[..] {
-        // INITIAL SOLUTIONS
-        "d00s1" => solutions::day00::d00s1(submit, example).await,
-        "d00s2" => solutions::day00::d00s2(submit, example).await,
 
-        "d01s1" => solutions::day01::d01s1(submit, example).await,
-        "d01s2" => solutions::day01::d01s2(submit, example).await,
+    func_map::run(&func, submit, example).await;
 
-        "d02s1" => solutions::day02::d02s1(submit, example).await,
-        "d02s2" => solutions::day02::d02s2(submit, example).await,
-
-        "d03s1" => solutions::day03::d03s1(submit, example).await,
-        "d03s2" => solutions::day03::d03s2(submit, example).await,
-
-        // REVISED APPROACHES
-        "d00s1rev" => solutions::day00rev::d00s1(submit, example).await,
-        "d00s2rev" => solutions::day00rev::d00s2(submit, example).await,
-
-        // LUA
-        "d00s1lua" => solutions::day00lua::d00s1(submit, example).await,
-        "d00s2lua" => solutions::day00lua::d00s2(submit, example).await,
-
-        "d01s1lua" => solutions::day01lua::d01s1(submit, example).await,
-        "d01s2lua" => solutions::day01lua::d01s2(submit, example).await,
-
-        "d02s1lua" => solutions::day02lua::d02s1(submit, example).await,
-        "d02s2lua" => solutions::day02lua::d02s2(submit, example).await,
-
-        "d03s1lua" => solutions::day03lua::d03s1(submit, example).await,
-        "d03s2lua" => solutions::day03lua::d03s2(submit, example).await,
-
-        // VISUALIZATIONS
-
-        // ERR
-        invalid => {
-            println!(
-                "{}\n",
-                format!("Unrecognized function: {}", invalid.bold()).on_red()
-            )
-        }
-    }
     println!(
         "{}\n",
         format!("Execution time: {:.2?}", now.elapsed())

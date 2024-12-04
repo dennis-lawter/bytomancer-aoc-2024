@@ -1,5 +1,5 @@
-use super::final_answer;
-use super::input_raw;
+use super::solutions::final_answer;
+use super::solutions::input_raw;
 
 const DAY: u8 = 02;
 

@@ -22,4 +22,14 @@
   (common.str_split_at s (string.find s p))
 )
 
+(fn common.lookup_2d [x y input]
+  (var h (length input))
+  (var w (length (. input 1)))
+  (if
+    (and (and (>= y 1) (<= y h)) (and (>= x 1) (<= x w)))
+    (. (. input y) x)
+    nil
+  )
+)
+
 common

@@ -2,6 +2,7 @@ use super::solutions::final_answer;
 use super::solutions::input_raw;
 
 const DAY: u8 = 00;
+const SOL: u8 = 1;
 
 async fn input(example: bool) -> Vec<String> {
     let raw = input_raw(DAY, example).await;
@@ -14,12 +15,7 @@ async fn input(example: bool) -> Vec<String> {
     lines
 }
 
-pub async fn d00s1(submit: bool, example: bool) {
+pub async fn solve(submit: bool, example: bool) {
     let input = input(example).await;
-    final_answer(input[0].to_owned(), submit, DAY, 1).await;
-}
-
-pub async fn d00s2(submit: bool, example: bool) {
-    let input = input(example).await;
-    final_answer(input[0].to_owned(), submit, DAY, 2).await;
+    final_answer(input[0].to_owned(), submit, DAY, SOL).await;
 }

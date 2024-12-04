@@ -1,4 +1,5 @@
 mod func_map;
+mod generator;
 mod input;
 mod prelude;
 mod solutions;
@@ -31,6 +32,12 @@ async fn main() {
                 .long("example")
                 .help("Attempt to find and use an example provided on the problem page"),
         )
+        .arg(
+            Arg::with_name("generate")
+                .short("g")
+                .long("generate")
+                .help("Generate a new rust file for the solution, may create a fennel file as well if the command ends in lua"),
+        )
         .get_matches();
 
     let func = match matches.value_of("FUNCTION") {
@@ -49,7 +56,16 @@ async fn main() {
 
     let submit = matches.is_present("submit");
     let example = matches.is_present("example");
+    let generate = matches.is_present("generate");
 
+    if generate {
+        generator::generate_new_functions(&func).await;
+    } else {
+        solve(&func, submit, example).await;
+    }
+}
+
+async fn solve(func: &str, submit: bool, example: bool) -> () {
     println!(
         "\n{}\n",
         format!(

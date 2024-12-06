@@ -63,13 +63,17 @@ fn test_perm_causes_loop(guard: &mut Guard, x: usize, y: usize, opt_capacity: us
     let mut visited: HashSet<(usize, usize, Dir)> = HashSet::with_capacity(opt_capacity);
     let vis_status = (guard.x, guard.y, guard.dir);
     visited.insert(vis_status);
+    let mut last_dir = guard.dir;
     while guard.march() {
-        let vis_status = (guard.x, guard.y, guard.dir);
-        if visited.contains(&vis_status) {
-            guard.dun.map[y][x] = '.';
-            return true;
+        if guard.dir != last_dir {
+            last_dir = guard.dir;
+            let vis_status = (guard.x, guard.y, guard.dir);
+            if visited.contains(&vis_status) {
+                guard.dun.map[y][x] = '.';
+                return true;
+            }
+            visited.insert(vis_status);
         }
-        visited.insert(vis_status);
     }
     guard.dun.map[y][x] = '.';
     false

@@ -27,4 +27,5 @@ pub mod d05s1lua;
 pub mod d05s2lua;
 pub mod d06s1;
 pub mod d06s2;
+pub mod d06s2rev;
 // AUTOMATED EXPANSION PLACEHOLDER

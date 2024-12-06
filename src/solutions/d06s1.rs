@@ -68,7 +68,6 @@ impl Guard {
                 if self.dun.is_obs(self.x, self.y) {
                     self.y += 1;
                     self.dir = self.dir.rot_cw();
-                    return self.march();
                 }
             }
             Dir::E => {
@@ -79,7 +78,6 @@ impl Guard {
                 if self.dun.is_obs(self.x, self.y) {
                     self.x -= 1;
                     self.dir = self.dir.rot_cw();
-                    return self.march();
                 }
             }
             Dir::S => {
@@ -90,7 +88,6 @@ impl Guard {
                 if self.dun.is_obs(self.x, self.y) {
                     self.y -= 1;
                     self.dir = self.dir.rot_cw();
-                    return self.march();
                 }
             }
             Dir::W => {
@@ -101,7 +98,6 @@ impl Guard {
                 if self.dun.is_obs(self.x, self.y) {
                     self.x += 1;
                     self.dir = self.dir.rot_cw();
-                    return self.march();
                 }
             }
         }

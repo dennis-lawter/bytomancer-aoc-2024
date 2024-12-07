@@ -40,7 +40,7 @@ pub fn perform_single_test(k: u64, v: &Vec<u64>, test_id: usize) -> bool {
     // let org_test_id = test_id;
     let mut test_id = test_id;
     let mut accum = 0;
-    let mut op_list = "".to_owned();
+    // let mut op_list = "".to_owned();
     for vv in v {
         if accum == 0 {
             accum = vv.clone().into();
@@ -50,14 +50,17 @@ pub fn perform_single_test(k: u64, v: &Vec<u64>, test_id: usize) -> bool {
         test_id /= 3;
         if t == 0 {
             accum *= vv;
-            op_list = format!("{}{}", op_list, "*");
+            // op_list = format!("{}{}", op_list, "*");
         } else if t == 1 {
             accum += vv;
-            op_list = format!("{}{}", op_list, "+");
+            // op_list = format!("{}{}", op_list, "+");
         } else {
-            let gross = format!("{}{}", accum, vv);
-            op_list = format!("{}{}", op_list, ".");
-            accum = gross.parse::<u64>().expect("Concat failed to parse");
+            let mut vvc = vv.clone();
+            while vvc > 0 {
+                accum *= 10;
+                vvc /= 10;
+            }
+            accum += vv;
         }
     }
 

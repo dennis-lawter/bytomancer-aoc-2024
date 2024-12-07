@@ -39,7 +39,7 @@ pub async fn solve(submit: bool, example: bool) {
 pub fn perform_single_test(k: u64, v: &Vec<u64>, test_id: usize) -> bool {
     let mut test_id = test_id;
     let mut accum = 0;
-    let mut op_list = "".to_owned();
+    // let mut op_list = "".to_owned();
     for vv in v {
         if accum == 0 {
             accum = vv.clone().into();
@@ -49,14 +49,14 @@ pub fn perform_single_test(k: u64, v: &Vec<u64>, test_id: usize) -> bool {
         test_id /= 2;
         if t == 0 {
             accum *= vv;
-            op_list = format!("{}{}", op_list, "*");
+            // op_list = format!("{}{}", op_list, "*");
         } else {
             accum += vv;
-            op_list = format!("{}{}", op_list, "+");
+            // op_list = format!("{}{}", op_list, "+");
         }
     }
 
-    println!("{} {k}: {:?} {}", accum == k, v, op_list);
+    // println!("{} {k}: {:?} {}", accum == k, v, op_list);
 
     accum == k
 }
@@ -65,7 +65,7 @@ pub fn test_equation(k: u64, v: Vec<u64>) -> bool {
     let num_of_tests = usize::pow(2, (v.len() - 1) as u32) - 1;
     for test_id in 0..=num_of_tests {
         if perform_single_test(k, &v, test_id) {
-            println!("{k}: {:?}", v);
+            // println!("{k}: {:?}", v);
             return true;
         }
     }

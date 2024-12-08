@@ -5,6 +5,7 @@ My solution repository for Advent of Code 2024
 ```
       -------Part 1--------   -------Part 2--------
 Day       Time  Rank  Score       Time  Rank  Score
+  8   00:47:12  6152      0   00:57:34  5474      0
   7   00:42:47  6817      0   00:47:07  5623      0
   6   00:20:30  3733      0   00:37:46  2283      0
   5   00:34:50  7351      0   01:04:52  7453      0

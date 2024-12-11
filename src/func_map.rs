@@ -37,6 +37,8 @@ pub async fn run(func: &str, submit: bool, example: bool) {
         "d09s2" => crate::solutions::d09s2::solve(submit, example).await,
         "d10s1" => crate::solutions::d10s1::solve(submit, example).await,
         "d10s2" => crate::solutions::d10s2::solve(submit, example).await,
+        "d11s1" => crate::solutions::d11s1::solve(submit, example).await,
+        "d11s2" => crate::solutions::d11s2::solve(submit, example).await,
         // AUTOMATED EXPANSION PLACEHOLDER
         invalid => {
             println!(

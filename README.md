@@ -1,5 +1,32 @@
 # bytomancer-aoc-2024
-My solution repository for Advent of Code 2024
+My solution repository for Advent of Code 2024.
+
+## Spoiler Warning
+Within the `src/solutions` and `lua_src/solutions` folders,
+you will see my code to solve Advent of Code 2024.
+
+If you wish to remain spoiler free,
+avoid these folders!
+
+## Objective
+I've decided on a few objectives this year for Advent of Code.
+- As I have done all years, I will not use any AI tools.
+- I still wish to solve each problem as fast as I can using Rust.
+- I'd like to return to each problem and solve them in Fennel.
+
+I also see no value for myself in using AI to complete the problems;
+I'm using Advent of Code to learn and improve.
+
+I was debating about not doing Rust,
+but I wanted to feel okay going to sleep at 1AM after making some submission,
+and I didn't believe it was likely if I attempted Fennel first.
+
+Fennel will be my first real introduction to lisps.
+Obviously there are countless lisp dialects out there,
+but it was extremely easy to incorporate Fennel into my existing tooling.
+Additionally, Fennel made the most sense to me,
+as Lua appears quite often in game development,
+which is where I tend to focus much of my personal project time.
 
 ## Personal Times
 ```

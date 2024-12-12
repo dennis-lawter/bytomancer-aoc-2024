@@ -32,6 +32,7 @@ which is where I tend to focus much of my personal project time.
 ```
       -------Part 1--------   -------Part 2--------
 Day       Time  Rank  Score       Time  Rank  Score
+ 12   01:31:26  8203      0   01:47:00  3845      0
  11   00:16:07  4396      0   01:00:31  4802      0
  10   00:17:09  2445      0   00:18:39  1876      0
   9   00:40:37  5198      0   01:04:51  2855      0

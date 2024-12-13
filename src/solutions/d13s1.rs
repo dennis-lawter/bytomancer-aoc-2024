@@ -14,50 +14,85 @@ pub struct Machine {
 }
 impl Machine {
     pub fn least_tokens_to_win(&self) -> Option<usize> {
-        // let mut claw = (0usize, 0usize);
-        // try_buttons(self.a, self.b, self.prize, claw, 0, 0)
-        // let mut claw = (0usize, 0usize);
-        // let mut max_a_presses = 0;
-        // while claw.0 < self.prize.0 && claw.1 < self.prize.1 {
-        //     claw.0 += self.a.0;
-        //     claw.1 += self.a.1;
-        //     max_a_presses += 1;
-        //     if max_a_presses > 100 {
-        //         break;
-        //     }
-        // }
-        // let mut claw = (0usize, 0usize);
-        // let mut max_b_presses = 0;
-        // while claw.0 < self.prize.0 && claw.1 < self.prize.1 {
-        //     claw.0 += self.b.0;
-        //     claw.1 += self.b.1;
-        //     max_b_presses += 1;
-        //     if max_b_presses > 100 {
-        //         break;
-        //     }
-        // }
-        // println!("Maxes:{} {}", max_a_presses, max_b_presses);
         println!("GOAL:{:?}", self.prize);
         let mut solutions: Vec<(usize, usize)> = vec![];
-        // for a_presses in 0..max_a_presses {
-        //     for b_presses in 0..max_b_presses {
-        for a_presses in 0..=100 {
-            for b_presses in 0..=100 {
-                let mut claw = (0usize, 0usize);
-                claw.0 += a_presses * self.a.0;
-                claw.1 += a_presses * self.a.1;
-                claw.0 += b_presses * self.b.0;
-                claw.1 += b_presses * self.b.1;
-                if claw == self.prize {
-                    solutions.push((a_presses, b_presses));
-                    println!("FOUND ONE!  A: {a_presses} B: {b_presses}");
-                } else if claw.0 > self.prize.0 || claw.1 > self.prize.1 {
-                    break;
-                }
-                // else {
-                //     if a_presses == 80 {
-                //         println!("Nope  A: {a_presses} B: {b_presses}\t\t{:?}", claw);
-                //     }
+        // for a_presses in 0..=100 {
+        //     for b_presses in 0..=100 {
+        // let x_simplification = self.a.0 * self.b.0;
+        // let y_simplification = self.a.1 * self.b.1;
+        // for a_presses in 0..=100 * 10000000000000 {
+        //     for b_presses in 0..=100 * 10000000000000 {
+        //         let mut claw = (0usize, 0usize);
+        //         claw.0 += a_presses * self.a.0;
+        //         claw.1 += a_presses * self.a.1;
+        //         claw.0 += b_presses * self.b.0;
+        //         claw.1 += b_presses * self.b.1;
+        //         if claw == self.prize {
+        //             solutions.push((a_presses, b_presses));
+        //             println!("FOUND ONE!  A: {a_presses} B: {b_presses}");
+        //         } else if claw.0 > self.prize.0 || claw.1 > self.prize.1 {
+        //             break;
+        //         }
+        //     }
+        //     let mut claw = (0usize, 0usize);
+        //     claw.0 += a_presses * self.a.0;
+        //     claw.1 += a_presses * self.a.1;
+        //     if claw.0 > self.prize.0 || claw.1 > self.prize.1 {
+        //         break;
+        //     }
+        // }
+
+        // x goal = 100, x progress = 2:  100/2=50 right
+        // x goal = 100, x progress = 3: 100/3 = 33 but that's within the bounds of unsolved values
+        let mut b_presses_needed_on_x_axis = self.prize.0 / self.b.0;
+        if self.b.0 * b_presses_needed_on_x_axis < self.prize.0 {
+            b_presses_needed_on_x_axis += 1;
+        }
+
+        let mut b_presses_needed_on_y_axis = self.prize.1 / self.b.1;
+        if self.b.1 * b_presses_needed_on_y_axis < self.prize.1 {
+            b_presses_needed_on_y_axis += 1;
+        }
+
+        let min_of_b_press_limit = [b_presses_needed_on_x_axis, b_presses_needed_on_y_axis]
+            .iter()
+            .min()
+            .unwrap()
+            .clone();
+
+        let mut b_presses = min_of_b_press_limit;
+        let mut a_presses = 0;
+        let claw_x = a_presses * self.a.0 + b_presses * self.b.0;
+        let claw_y = a_presses * self.a.1 + b_presses * self.b.1;
+        let mut claw = (claw_x, claw_y);
+        println!(
+            "Starting at\t\tA:{a_presses}, B:{b_presses}, CLAW: {:?}",
+            claw
+        );
+        while b_presses > 0 {
+            // let claw_x = a_presses * self.a.0 + b_presses * self.b.0;
+            // let claw_y = a_presses * self.a.1 + b_presses * self.b.1;
+            // let mut claw = (claw_x, claw_y);
+            if b_presses % 10_000_000_000 == 0 {
+                println!("Now at\t\tA:{a_presses}, B:{b_presses}, CLAW: {:?}", claw);
+            }
+            if claw == self.prize {
+                solutions.push((a_presses, b_presses));
+                let cost = b_presses + (a_presses * 3);
+                println!("FOUND ONE!  A: {a_presses}\tB: {b_presses}\tcost: {cost}");
+            }
+            b_presses -= 1;
+            claw.0 -= self.b.0;
+            claw.1 -= self.b.1;
+            while claw.0 < self.prize.0 && claw.1 < self.prize.1 {
+                a_presses += 1;
+                claw.0 += self.a.0;
+                claw.1 += self.a.1;
+                // let claw_x = a_presses * self.a.0 + b_presses * self.b.0;
+                // let claw_y = a_presses * self.a.1 + b_presses * self.b.1;
+                // let claw = (claw_x, claw_y);
+                // if claw.0 >= self.prize.0 || claw.1 >= self.prize.1 {
+                //     break;
                 // }
             }
         }
@@ -68,60 +103,7 @@ impl Machine {
     }
 }
 
-// pub enum Btn {
-//     A,
-//     B,
-// }
-
-// pub fn try_buttons(
-//     a: (usize, usize),
-//     b: (usize, usize),
-//     prize: (usize, usize),
-//     claw: (usize, usize),
-//     tokens_so_far: usize,
-//     futility: usize,
-// ) -> Option<usize> {
-//     let vec![]
-//     None
-// }
-
-// pub fn try_buttons(
-//     a: (usize, usize),
-//     b: (usize, usize),
-//     prize: (usize, usize),
-//     claw: (usize, usize),
-//     tokens_so_far: usize,
-//     futility: usize,
-// ) -> Option<usize> {
-//     if claw == prize {
-//         return Some(tokens_so_far);
-//     } else if claw.0 > prize.0 {
-//         return None;
-//     } else if claw.1 > prize.1 {
-//         return None;
-//     } else if futility > 100 {
-//         return None;
-//     }
-
-//     let press_a_claw = (claw.0 + a.0, claw.1 + a.1);
-//     let press_a_tried = try_buttons(a, b, prize, press_a_claw, tokens_so_far + 3, futility + 1);
-//     let press_b_claw = (claw.0 + b.0, claw.1 + b.1);
-//     let press_b_tried = try_buttons(a, b, prize, press_b_claw, tokens_so_far + 1, futility + 1);
-
-//     if press_a_tried == None && press_b_tried == None {
-//         None
-//     } else if press_a_tried == None {
-//         press_b_tried
-//     } else if press_b_tried == None {
-//         press_a_tried
-//     } else if press_a_tried < press_b_tried {
-//         press_a_tried
-//     } else {
-//         press_b_tried
-//     }
-// }
-
-async fn input(example: bool) -> Vec<Machine> {
+pub async fn input(example: bool) -> Vec<Machine> {
     let raw = input_raw(DAY, example).await;
     let groups: Vec<String> = raw
         .split("\n\n")
@@ -165,7 +147,6 @@ async fn input(example: bool) -> Vec<Machine> {
 
 pub async fn solve(submit: bool, example: bool) {
     let input = input(example).await;
-    // let answer = 0;
     let tokens_to_win: Vec<Option<usize>> = input.iter().map(|m| m.least_tokens_to_win()).collect();
     println!("{:#?}", tokens_to_win);
     let answer: usize = tokens_to_win

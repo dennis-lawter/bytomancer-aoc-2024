@@ -41,4 +41,6 @@ pub mod d11s2;
 pub mod d12s1;
 pub mod d12s2;
 pub mod d06s1vis;
+pub mod d13s1;
+pub mod d13s2;
 // AUTOMATED EXPANSION PLACEHOLDER

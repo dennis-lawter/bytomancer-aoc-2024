@@ -15,6 +15,14 @@
     devShells.${system}.default = pkgs.mkShell
     {
       RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
+      LIBCLANG_PATH = "${pkgs.llvmPackages_16.libclang.lib}/lib";
+      LD_LIBRARY_PATH = with pkgs; lib.makeLibraryPath [
+        libGL
+        xorg.libXrandr
+        xorg.libXinerama
+        xorg.libXcursor
+        xorg.libXi
+      ];
       packages = with pkgs; [
         vscodium
         rustc
@@ -24,6 +32,12 @@
 	fennel-ls
         openssl.dev
         pkg-config
+
+	raylib
+	cmake
+	clang
+	
+	glfw
       ];
     };
   };

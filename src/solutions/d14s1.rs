@@ -15,8 +15,8 @@ pub const SIMTIME: usize = 100;
 
 #[derive(Clone, Debug)]
 pub struct Robot {
-    pos: (i32, i32),
-    vel: (i32, i32),
+    pub pos: (i32, i32),
+    pub vel: (i32, i32),
 }
 impl Robot {
     pub fn new(re: &Regex, input: &str) -> Self {

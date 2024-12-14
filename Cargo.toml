@@ -8,6 +8,7 @@ clap = "2.34.0"
 color-eyre = "0.6.2"
 colored = "2.0.4"
 dotenv = "0.15.0"
+futures = "0.3.31"
 mlua = { version = "0.10.1", features = ["lua52", "macros", "async"] }
 num = "0.4.1"
 raylib = "5.0.2"

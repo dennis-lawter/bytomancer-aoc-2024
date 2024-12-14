@@ -128,6 +128,7 @@ impl Machine {
                     }
                 };
 
+            println!("GOAL: {:?}", self.prize);
             println!("Horizontal slope: {hor_slope}");
             println!("Vertical slope: {vert_slope}");
             println!("");
@@ -140,21 +141,28 @@ impl Machine {
             let prize_f = (self.prize.0 as f64, self.prize.1 as f64);
             let dist_from_inter_to_prize = dist((inter_x, inter_y), prize_f);
 
-            let a_dist_per_press = dist((0.0, 0.0), (self.a.0 as f64, self.a.1 as f64));
-            let num_of_as_for_dist_to_inter = dist_to_inter / a_dist_per_press;
-            let a_presses: usize = num_of_as_for_dist_to_inter.round() as usize;
+            let b_dist_per_press = dist((0.0, 0.0), (self.a.0 as f64, self.a.1 as f64));
+            let num_of_as_for_dist_to_inter = dist_to_inter / b_dist_per_press;
+            let b_presses: usize = num_of_as_for_dist_to_inter.round() as usize;
 
-            let b_dist_per_press = dist((0.0, 0.0), (self.b.0 as f64, self.b.1 as f64));
+            let a_dist_per_press = dist((0.0, 0.0), (self.b.0 as f64, self.b.1 as f64));
             let num_of_bs_for_dist_from_inter_to_prize =
-                dist_from_inter_to_prize / b_dist_per_press;
-            let b_presses: usize = num_of_bs_for_dist_from_inter_to_prize.round() as usize;
+                dist_from_inter_to_prize / a_dist_per_press;
+            let a_presses: usize = num_of_bs_for_dist_from_inter_to_prize.round() as usize;
 
             let claw_x = a_presses * self.a.0 + b_presses * self.b.0;
             let claw_y = a_presses * self.a.1 + b_presses * self.b.1;
 
+            println!("");
+            println!("A: {a_presses}");
+            println!("B: {b_presses}");
+
             if (claw_x, claw_y) == self.prize {
                 let cost = b_presses + (a_presses * 3);
+                println!("VALID");
                 return Some(cost);
+            } else {
+                println!("INVALID");
             }
         }
 

@@ -15,7 +15,7 @@ pub async fn solve(submit: bool, example: bool) {
 
     let mut answer = 0;
 
-    let stdin = std::io::stdin();
+    // let stdin = std::io::stdin();
     // loop {
     //     for robot in robots.iter_mut() {
     //         robot.march(WIDTH, HEIGHT);

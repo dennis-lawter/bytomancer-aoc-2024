@@ -171,106 +171,186 @@ impl Dun {
         self.data[y][x] == DunTile::Empty
     }
 
-    // TODO: fix for p2
-    // NOTES TO SELF (NTS):
-    // The problem with this is that I was thinking too hard about
-    // the N/S push case.
-    // In the E/W case, it's much simpler.
-    // You could even do it with an iterator.
-    // Go down the line, until empty|wall
-    // if wall, fail
-    // if empty, set empty to (left if W push, right if E push)
-    // flip every tile as the iterator returns to pos
-    // set pos to empty
-    // I'm too tired tonight to finish this.
-    // I need sleep.
     fn can_push_box(&mut self, pos: (i32, i32), dir: Dir) -> bool {
-        let affected_boxes = if self.is_left_box(pos) {
-            (pos, (pos.0 + 1, pos.1))
-        } else {
-            ((pos.0 - 1, pos.1), pos)
-        };
-        let (lbox, rbox) = affected_boxes;
-        let new_lbox = match dir {
-            Dir::N => (lbox.0, lbox.1 - 1),
-            Dir::E => (lbox.0 + 2, lbox.1),
-            Dir::S => (lbox.0, lbox.1 + 1),
-            Dir::W => (lbox.0 - 2, lbox.1),
-        };
-        let new_rbox = match dir {
-            Dir::N => (rbox.0, rbox.1 - 1),
-            Dir::E => (rbox.0 + 2, rbox.1),
-            Dir::S => (rbox.0, rbox.1 + 1),
-            Dir::W => (rbox.0 - 2, rbox.1),
-        };
-        if self.is_wall(new_lbox) || self.is_wall(new_rbox) {
-            return false;
-        } else if self.is_box(new_lbox) || self.is_box(new_rbox) {
-            if self.can_push_box(new_lbox, dir) && self.can_push_box(new_rbox, dir) {
-                return true;
-            } else {
-                return false;
+        match dir {
+            Dir::N => {
+                let affected_tiles = if self.is_left_box(pos) {
+                    (pos, (pos.0 + 1, pos.1))
+                } else {
+                    ((pos.0 - 1, pos.1), pos)
+                };
+                let (lbox, rbox) = affected_tiles;
+                let new_lbox = (lbox.0, lbox.1 - 1);
+                let new_rbox = (rbox.0, rbox.1 - 1);
+                if self.is_wall(new_lbox) {
+                    return false;
+                } else if self.is_wall(new_rbox) {
+                    return false;
+                } else {
+                    let lcheck = if self.is_box(new_lbox) {
+                        self.can_push_box(new_lbox, dir)
+                    } else {
+                        true
+                    };
+                    let rcheck = if self.is_box(new_rbox) {
+                        self.can_push_box(new_rbox, dir)
+                    } else {
+                        true
+                    };
+
+                    return lcheck && rcheck;
+                }
             }
-        } else {
-            assert!(self.is_empty(new_lbox));
-            assert!(self.is_empty(new_rbox));
+            Dir::E => {
+                let mut pos_iter = pos.clone();
+                while self.is_box(pos_iter) {
+                    pos_iter.0 += 1;
+                }
+                return self.is_empty(pos_iter);
+            }
+            Dir::S => {
+                let affected_tiles = if self.is_left_box(pos) {
+                    (pos, (pos.0 + 1, pos.1))
+                } else if self.is_right_box(pos) {
+                    ((pos.0 - 1, pos.1), pos)
+                } else {
+                    panic!("???");
+                };
+                let (lbox, rbox) = affected_tiles;
+                let new_lbox = (lbox.0, lbox.1 + 1);
+                let new_rbox = (rbox.0, rbox.1 + 1);
+                if self.is_wall(new_lbox) {
+                    return false;
+                } else if self.is_wall(new_rbox) {
+                    return false;
+                } else {
+                    let lcheck = if self.is_box(new_lbox) {
+                        self.can_push_box(new_lbox, dir)
+                    } else {
+                        true
+                    };
+                    let rcheck = if self.is_box(new_rbox) {
+                        self.can_push_box(new_rbox, dir)
+                    } else {
+                        true
+                    };
 
-            return true;
-
-            // let lbox_x = lbox.0 as usize;
-            // let lbox_y = lbox.1 as usize;
-            // let lbox_new_x = new_lbox.0 as usize;
-            // let lbox_new_y = new_lbox.1 as usize;
-            // self.data[lbox_new_y][lbox_new_x] = DunTile::BoxLeft;
-            // self.data[lbox_y][lbox_x] = DunTile::Empty;
-
-            // let rbox_x = rbox.0 as usize;
-            // let rbox_y = rbox.1 as usize;
-            // let rbox_new_x = new_rbox.0 as usize;
-            // let rbox_new_y = new_rbox.1 as usize;
-            // self.data[rbox_new_y][rbox_new_x] = DunTile::BoxLeft;
-            // self.data[rbox_y][rbox_x] = DunTile::Empty;
+                    return lcheck && rcheck;
+                }
+            }
+            Dir::W => {
+                let mut pos_iter = pos.clone();
+                while self.is_box(pos_iter) {
+                    pos_iter.0 -= 1;
+                }
+                return self.is_empty(pos_iter);
+            }
         }
-
-        // false
     }
 
     fn push_box(&mut self, pos: (i32, i32), dir: Dir) {
-        let affected_boxes = if self.is_left_box(pos) {
-            (pos, (pos.0 + 1, pos.1))
-        } else {
-            ((pos.0 - 1, pos.1), pos)
-        };
-        let (lbox, rbox) = affected_boxes;
-        let new_lbox = match dir {
-            Dir::N => (lbox.0, lbox.1 - 1),
-            Dir::E => (lbox.0 + 2, lbox.1),
-            Dir::S => (lbox.0, lbox.1 + 1),
-            Dir::W => (lbox.0 - 2, lbox.1),
-        };
-        let new_rbox = match dir {
-            Dir::N => (rbox.0, rbox.1 - 1),
-            Dir::E => (rbox.0 + 2, rbox.1),
-            Dir::S => (rbox.0, rbox.1 + 1),
-            Dir::W => (rbox.0 - 2, rbox.1),
-        };
-
-        assert!(self.is_empty(new_lbox));
-        assert!(self.is_empty(new_rbox));
-
-        let lbox_x = lbox.0 as usize;
-        let lbox_y = lbox.1 as usize;
-        let lbox_new_x = new_lbox.0 as usize;
-        let lbox_new_y = new_lbox.1 as usize;
-        self.data[lbox_new_y][lbox_new_x] = DunTile::BoxLeft;
-        self.data[lbox_y][lbox_x] = DunTile::Empty;
-
-        let rbox_x = rbox.0 as usize;
-        let rbox_y = rbox.1 as usize;
-        let rbox_new_x = new_rbox.0 as usize;
-        let rbox_new_y = new_rbox.1 as usize;
-        self.data[rbox_new_y][rbox_new_x] = DunTile::BoxLeft;
-        self.data[rbox_y][rbox_x] = DunTile::Empty;
+        match dir {
+            Dir::N => {
+                let affected_tiles = if self.is_left_box(pos) {
+                    (pos, (pos.0 + 1, pos.1))
+                } else {
+                    ((pos.0 - 1, pos.1), pos)
+                };
+                let (lbox, rbox) = affected_tiles;
+                let new_lbox = (lbox.0, lbox.1 - 1);
+                let new_rbox = (rbox.0, rbox.1 - 1);
+                if self.is_box(new_lbox) {
+                    self.push_box(new_lbox, dir);
+                }
+                if self.is_box(new_rbox) {
+                    self.push_box(new_rbox, dir);
+                }
+                let x = new_lbox.0 as usize;
+                let y = new_lbox.1 as usize;
+                self.data[y][x] = DunTile::BoxLeft;
+                let x = new_rbox.0 as usize;
+                let y = new_rbox.1 as usize;
+                self.data[y][x] = DunTile::BoxRight;
+                let x = lbox.0 as usize;
+                let y = lbox.1 as usize;
+                self.data[y][x] = DunTile::Empty;
+                let x = rbox.0 as usize;
+                let y = rbox.1 as usize;
+                self.data[y][x] = DunTile::Empty;
+            }
+            Dir::E => {
+                let mut pos_iter = pos.clone();
+                // flip everything through the iterator
+                while !self.is_empty(pos_iter) {
+                    let x = pos_iter.0 as usize;
+                    let y = pos_iter.1 as usize;
+                    if self.is_left_box(pos_iter) {
+                        self.data[y][x] = DunTile::BoxRight;
+                    } else {
+                        self.data[y][x] = DunTile::BoxLeft;
+                    }
+                    pos_iter.0 += 1;
+                }
+                // set the last tile to a ]
+                let x = pos_iter.0 as usize;
+                let y = pos_iter.1 as usize;
+                self.data[y][x] = DunTile::BoxRight;
+                // set the starting tile to empty
+                let x = pos.0 as usize;
+                let y = pos.1 as usize;
+                self.data[y][x] = DunTile::Empty;
+            }
+            Dir::S => {
+                let affected_tiles = if self.is_left_box(pos) {
+                    (pos, (pos.0 + 1, pos.1))
+                } else {
+                    ((pos.0 - 1, pos.1), pos)
+                };
+                let (lbox, rbox) = affected_tiles;
+                let new_lbox = (lbox.0, lbox.1 + 1);
+                let new_rbox = (rbox.0, rbox.1 + 1);
+                if self.is_box(new_lbox) {
+                    self.push_box(new_lbox, dir);
+                }
+                if self.is_box(new_rbox) {
+                    self.push_box(new_rbox, dir);
+                }
+                let x = new_lbox.0 as usize;
+                let y = new_lbox.1 as usize;
+                self.data[y][x] = DunTile::BoxLeft;
+                let x = new_rbox.0 as usize;
+                let y = new_rbox.1 as usize;
+                self.data[y][x] = DunTile::BoxRight;
+                let x = lbox.0 as usize;
+                let y = lbox.1 as usize;
+                self.data[y][x] = DunTile::Empty;
+                let x = rbox.0 as usize;
+                let y = rbox.1 as usize;
+                self.data[y][x] = DunTile::Empty;
+            }
+            Dir::W => {
+                let mut pos_iter = pos.clone();
+                // flip everything through the iterator
+                while !self.is_empty(pos_iter) {
+                    let x = pos_iter.0 as usize;
+                    let y = pos_iter.1 as usize;
+                    if self.is_left_box(pos_iter) {
+                        self.data[y][x] = DunTile::BoxRight;
+                    } else {
+                        self.data[y][x] = DunTile::BoxLeft;
+                    }
+                    pos_iter.0 -= 1;
+                }
+                // set the last tile to a [
+                let x = pos_iter.0 as usize;
+                let y = pos_iter.1 as usize;
+                self.data[y][x] = DunTile::BoxLeft;
+                // set the starting tile to empty
+                let x = pos.0 as usize;
+                let y = pos.1 as usize;
+                self.data[y][x] = DunTile::Empty;
+            }
+        }
     }
 
     fn get_gps_sum(&self) -> usize {

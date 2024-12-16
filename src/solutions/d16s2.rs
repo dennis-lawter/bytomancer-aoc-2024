@@ -1,4 +1,3 @@
-use std::collections::HashMap;
 use std::collections::HashSet;
 
 use super::d16s1::*;
@@ -24,23 +23,87 @@ pub async fn solve(submit: bool, example: bool) {
         }
         best_tile_score.push(row);
     }
-    // println!("{:?}", best_tile_score);
+    // // println!("{:?}", best_tile_score);
+    // let start = dun.get_start();
+    // let end = dun.get_end();
+    // let deer = RobotWithTracking::new(start);
+    // let mut active_deer = vec![deer];
+    // let mut finished_deer: Vec<RobotWithTracking> = vec![];
+
+    // dun.print();
+
+    // loop {
+    //     if let Some(first_deer) = active_deer.pop() {
+    //         if first_deer.robot.pos == end {
+    //             let x = first_deer.robot.pos.0;
+    //             let y = first_deer.robot.pos.1;
+    //             let z = first_deer.robot.dir.to_usize();
+    //             if first_deer.robot.score <= best_tile_score[y][x][z] {
+    //                 best_tile_score[y][x][z] = first_deer.robot.score;
+    //                 finished_deer.push(first_deer);
+    //                 continue;
+    //             }
+    //         }
+    //         {
+    //             // march
+    //             let mut deer = first_deer.clone();
+    //             if deer.march_forward(&dun) {
+    //                 let x = deer.robot.pos.0;
+    //                 let y = deer.robot.pos.1;
+    //                 let z = deer.robot.dir.to_usize();
+    //                 if deer.score() <= best_tile_score[y][x][z] {
+    //                     best_tile_score[y][x][z] = deer.score();
+    //                     active_deer.push(deer);
+    //                 }
+    //             }
+    //         }
+    //         {
+    //             // turn left
+    //             let mut deer = first_deer.clone();
+    //             if deer.turn_left() {
+    //                 let x = deer.robot.pos.0;
+    //                 let y = deer.robot.pos.1;
+    //                 let z = deer.robot.dir.to_usize();
+    //                 if deer.score() <= best_tile_score[y][x][z] {
+    //                     best_tile_score[y][x][z] = deer.score();
+    //                     active_deer.push(deer);
+    //                 }
+    //             }
+    //         }
+    //         {
+    //             // turn left
+    //             let mut deer = first_deer.clone();
+    //             if deer.turn_right() {
+    //                 let x = deer.robot.pos.0;
+    //                 let y = deer.robot.pos.1;
+    //                 let z = deer.robot.dir.to_usize();
+    //                 if deer.score() <= best_tile_score[y][x][z] {
+    //                     best_tile_score[y][x][z] = deer.score();
+    //                     active_deer.push(deer);
+    //                 }
+    //             }
+    //         }
+    //     } else {
+    //         break;
+    //     }
+    // }
+
     let start = dun.get_start();
     let end = dun.get_end();
-    let deer = RobotWithTracking::new(start);
+    let deer = Robot::new(start);
     let mut active_deer = vec![deer];
-    let mut finished_deer: Vec<RobotWithTracking> = vec![];
+    let mut finished_deer: Vec<Robot> = vec![];
 
     dun.print();
 
     loop {
         if let Some(first_deer) = active_deer.pop() {
-            if first_deer.robot.pos == end {
-                let x = first_deer.robot.pos.0;
-                let y = first_deer.robot.pos.1;
-                let z = first_deer.robot.dir.to_usize();
-                if first_deer.robot.score <= best_tile_score[y][x][z] {
-                    best_tile_score[y][x][z] = first_deer.robot.score;
+            if first_deer.pos == end {
+                let x = first_deer.pos.0;
+                let y = first_deer.pos.1;
+                let z = first_deer.dir.to_usize();
+                if first_deer.score <= best_tile_score[y][x][z] {
+                    best_tile_score[y][x][z] = first_deer.score;
                     finished_deer.push(first_deer);
                     continue;
                 }
@@ -49,9 +112,9 @@ pub async fn solve(submit: bool, example: bool) {
                 // march
                 let mut deer = first_deer.clone();
                 if deer.march_forward(&dun) {
-                    let x = deer.robot.pos.0;
-                    let y = deer.robot.pos.1;
-                    let z = deer.robot.dir.to_usize();
+                    let x = deer.pos.0;
+                    let y = deer.pos.1;
+                    let z = deer.dir.to_usize();
                     if deer.score() <= best_tile_score[y][x][z] {
                         best_tile_score[y][x][z] = deer.score();
                         active_deer.push(deer);
@@ -62,9 +125,9 @@ pub async fn solve(submit: bool, example: bool) {
                 // turn left
                 let mut deer = first_deer.clone();
                 if deer.turn_left() {
-                    let x = deer.robot.pos.0;
-                    let y = deer.robot.pos.1;
-                    let z = deer.robot.dir.to_usize();
+                    let x = deer.pos.0;
+                    let y = deer.pos.1;
+                    let z = deer.dir.to_usize();
                     if deer.score() <= best_tile_score[y][x][z] {
                         best_tile_score[y][x][z] = deer.score();
                         active_deer.push(deer);
@@ -75,9 +138,9 @@ pub async fn solve(submit: bool, example: bool) {
                 // turn left
                 let mut deer = first_deer.clone();
                 if deer.turn_right() {
-                    let x = deer.robot.pos.0;
-                    let y = deer.robot.pos.1;
-                    let z = deer.robot.dir.to_usize();
+                    let x = deer.pos.0;
+                    let y = deer.pos.1;
+                    let z = deer.dir.to_usize();
                     if deer.score() <= best_tile_score[y][x][z] {
                         best_tile_score[y][x][z] = deer.score();
                         active_deer.push(deer);
@@ -88,7 +151,8 @@ pub async fn solve(submit: bool, example: bool) {
             break;
         }
     }
-    println!("\n\n\n{:#?}", finished_deer);
+
+    // println!("\n\n\n{:#?}", finished_deer);
 
     let mut min_score = usize::MAX;
     for deer in &finished_deer {
@@ -97,74 +161,87 @@ pub async fn solve(submit: bool, example: bool) {
         }
     }
 
-    let mut best_deers: Vec<RobotWithTracking> = vec![];
-    for deer in finished_deer {
-        if deer.score() == min_score {
-            best_deers.push(deer);
-        }
-    }
-
     // println!("{:#?}", best_tile_score);
     // panic!("{min_score}");
 
     // // now that we have min_score, we'll redo the algorithm with deer tracking
-    // let deer = RobotWithTracking::new(start);
-    // let mut active_deer = vec![deer];
-    // let mut finished_deer: Vec<RobotWithTracking> = vec![];
-    // loop {
-    //     if let Some(first_deer) = active_deer.pop() {
-    //         println!("{:?}", first_deer);
-    //         if first_deer.robot.pos == end {
-    //             finished_deer.push(first_deer);
-    //             continue;
-    //         }
+    let deer = RobotWithTracking::new(start);
+    let mut active_deer = vec![deer];
+    let mut best_deers: Vec<RobotWithTracking> = vec![];
+    loop {
+        if let Some(first_deer) = active_deer.pop() {
+            // println!("{:?}", first_deer);
+            if first_deer.robot.pos == end {
+                let x = first_deer.robot.pos.0;
+                let y = first_deer.robot.pos.1;
+                let z = first_deer.robot.dir.to_usize();
+                if first_deer.score() == min_score {
+                    best_deers.push(first_deer);
+                }
+                continue;
+            }
 
-    //         {
-    //             // march
-    //             let mut deer = first_deer.clone();
-    //             if deer.march_forward(&dun) {
-    //                 // if deer_within_score(&deer, min_score) {
-    //                 let x = deer.robot.pos.0;
-    //                 let y = deer.robot.pos.1;
-    //                 let z = deer.robot.dir.to_usize();
-    //                 if best_tile_score[y][x][z] == deer.score() {
-    //                     active_deer.push(deer);
-    //                 }
-    //                 // }
-    //             }
-    //         }
-    //         {
-    //             // turn left
-    //             let mut deer = first_deer.clone();
-    //             if deer.turn_left() {
-    //                 // if deer_within_score(&deer, min_score) {
-    //                 let x = deer.robot.pos.0;
-    //                 let y = deer.robot.pos.1;
-    //                 let z = deer.robot.dir.to_usize();
-    //                 if best_tile_score[y][x][z] == deer.score() {
-    //                     active_deer.push(deer);
-    //                 }
-    //                 // }
-    //             }
-    //         }
-    //         {
-    //             // turn left
-    //             let mut deer = first_deer.clone();
-    //             if deer.turn_right() {
-    //                 // if deer_within_score(&deer, min_score) {
-    //                 let x = deer.robot.pos.0;
-    //                 let y = deer.robot.pos.1;
-    //                 let z = deer.robot.dir.to_usize();
-    //                 if best_tile_score[y][x][z] == deer.score() {
-    //                     active_deer.push(deer);
-    //                 }
-    //                 // }
-    //             }
-    //         }
-    //     } else {
-    //         break;
-    //     }
-    // }
+            {
+                // march
+                let mut deer = first_deer.clone();
+                if deer.march_forward(&dun) {
+                    // println!("March!");
+                    // if deer_within_score(&deer, min_score) {
+                    let x = deer.robot.pos.0;
+                    let y = deer.robot.pos.1;
+                    let z = deer.robot.dir.to_usize();
+                    if best_tile_score[y][x][z] == deer.score() {
+                        active_deer.push(deer);
+                    }
+                    // }
+                }
+            }
+            {
+                // turn left
+                let mut deer = first_deer.clone();
+                if deer.turn_left() {
+                    // println!("Left!");
+                    // if deer_within_score(&deer, min_score) {
+                    let x = deer.robot.pos.0;
+                    let y = deer.robot.pos.1;
+                    let z = deer.robot.dir.to_usize();
+                    if best_tile_score[y][x][z] == deer.score() {
+                        active_deer.push(deer);
+                    } else {
+                        // println!(
+                        //     "My score {} didn't beat the best score {}",
+                        //     deer.score(),
+                        //     best_tile_score[y][x][z],
+                        // );
+                    }
+                    // }
+                }
+            }
+            {
+                // turn left
+                let mut deer = first_deer.clone();
+                if deer.turn_right() {
+                    // println!("Right!");
+                    // if deer_within_score(&deer, min_score) {
+                    let x = deer.robot.pos.0;
+                    let y = deer.robot.pos.1;
+                    let z = deer.robot.dir.to_usize();
+                    if best_tile_score[y][x][z] == deer.score() {
+                        active_deer.push(deer);
+                    } else {
+                        // println!(
+                        //     "My score {} didn't beat the best score {}",
+                        //     deer.score(),
+                        //     best_tile_score[y][x][z],
+                        // );
+                    }
+                    // }
+                }
+            }
+        } else {
+            break;
+        }
+    }
 
     let mut tiles_on_any_optimal_path: HashSet<(usize, usize)> = HashSet::new();
     for deer in best_deers {

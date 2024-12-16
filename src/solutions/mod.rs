@@ -48,4 +48,6 @@ pub mod d14s2;
 pub mod d14s2vis;
 pub mod d15s1;
 pub mod d15s2;
+pub mod d16s1;
+pub mod d16s2;
 // AUTOMATED EXPANSION PLACEHOLDER

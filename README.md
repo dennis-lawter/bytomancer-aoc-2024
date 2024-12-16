@@ -28,10 +28,49 @@ Additionally, Fennel made the most sense to me,
 as Lua appears quite often in game development,
 which is where I tend to focus much of my personal project time.
 
+## AOC Framework
+
+This project began in November 2022,
+as I worked on solving the AOC 2021 problems.
+From my time tinkering with these problems,
+I decided to add on a few features to ease development
+(and for the simple fun of it).
+
+### Features
+
+1. I've implemented an input downloader which retrieves input files via the web.
+    - A `.env` file is required with `SESSION=<Session ID from your cookie>`.
+    - Files are downloaded to a `_cache/` folder created in the project root.
+    - If an input file is already found locally, that file is loaded instead.
+2. Final submissions are sent automatically to the form.
+    - Using the same `.env` as above,
+      executing the program with the `-s` or `--submit`
+      option will send the result to the website's submission URL.
+    - The resulting page is scanned and outputs a result to the command line.
+3. Arguments dictate the solution to be run.
+    - After discovering significant re-use between the days,
+      I decided to package my code together in a single project.
+    - Execution is performed with `cargo run -- dXsY`,
+      representing day X solution Y.
+4. Colorization is used heavily.
+    - Tracking outputs and debugging is much simpler,
+      thanks to the `colored` crate.
+5. Automatic generation of solution files.
+    - Usage: `cargo run -- d01s1 -g`
+    - Executing the program with the `-g` or `--generate`
+      option will perform some metaprogramming,
+      generating new rust files.
+    - A special outcome is performed if the target name ends in `lua`.
+      A .fnl file will be generated, and the lua template will be used instead.
+      This enables a rust framework driven system which feeds the input to lua,
+      then runs your solution, written in fennel.
+      This special fennel case was snuck in so I could do 2024 in fennel easily.
+
 ## Personal Times
 ```
       -------Part 1--------   --------Part 2--------
 Day       Time  Rank  Score       Time   Rank  Score
+ 16   00:52:00  3391      0   02:39:43   4123      0
  15   01:18:22  5807      0   13:08:53  14797      0
  14   00:54:46  5727      0   01:36:41   4711      0
  13   00:52:54  5491      0   22:49:08  28845      0

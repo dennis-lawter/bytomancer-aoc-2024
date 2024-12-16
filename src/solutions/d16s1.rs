@@ -8,7 +8,7 @@ use super::solutions::input_raw;
 const DAY: u8 = 16;
 const SOL: u8 = 1;
 
-async fn input(example: bool) -> Vec<Vec<char>> {
+pub async fn input(example: bool) -> Vec<Vec<char>> {
     let raw = input_raw(DAY, example).await;
     raw.lines()
         .map(|item| item.to_owned())

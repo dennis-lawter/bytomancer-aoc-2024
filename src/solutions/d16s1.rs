@@ -124,6 +124,14 @@ impl Dir {
             Dir::W => Dir::S,
         }
     }
+    pub fn to_usize(&self) -> usize {
+        match self {
+            Dir::N => 0,
+            Dir::E => 1,
+            Dir::S => 2,
+            Dir::W => 3,
+        }
+    }
     // pub fn rot_180(&self) -> Self {
     //     match self {
     //         Dir::N => Dir::S,

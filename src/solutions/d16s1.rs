@@ -1,6 +1,5 @@
 use std::collections::HashMap;
 use std::usize;
-// use std::collections::HashSet;
 
 use super::solutions::final_answer;
 use super::solutions::input_raw;
@@ -132,14 +131,6 @@ impl Dir {
             Dir::W => 3,
         }
     }
-    // pub fn rot_180(&self) -> Self {
-    //     match self {
-    //         Dir::N => Dir::S,
-    //         Dir::E => Dir::W,
-    //         Dir::S => Dir::N,
-    //         Dir::W => Dir::E,
-    //     }
-    // }
 }
 
 #[derive(Clone, Debug)]
@@ -147,7 +138,6 @@ pub struct Robot {
     pub pos: (usize, usize),
     pub dir: Dir,
     pub score: usize,
-    // pub memory: HashSet<(usize, usize, Dir)>,
 }
 // I want to implement Ord/PartialOrd but guh
 impl Robot {
@@ -156,7 +146,6 @@ impl Robot {
             pos,
             dir: Dir::E, // from p1 problem text
             score: 0usize,
-            // memory: HashSet::new(),
         }
     }
     pub fn march_forward(&mut self, dun: &Dun) -> bool {
@@ -182,26 +171,12 @@ impl Robot {
         self.dir = new_dir;
         self.score += 1000;
         true
-        // if self.memory.contains(&(self.pos.0, self.pos.1, new_dir)) {
-        //     false
-        // } else {
-        // self.memory.insert((self.pos.0, self.pos.1, new_dir));
-        // self.dir = new_dir;
-        // true
-        // }
     }
     pub fn turn_left(&mut self) -> bool {
         let new_dir = self.dir.rot_ccw();
         self.dir = new_dir;
         self.score += 1000;
         true
-        // if self.memory.contains(&(self.pos.0, self.pos.1, new_dir)) {
-        //     false
-        // } else {
-        // self.memory.insert((self.pos.0, self.pos.1, new_dir));
-        // self.dir = new_dir;
-        // true
-        // }
     }
     pub fn score(&self) -> usize {
         self.score
